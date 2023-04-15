@@ -15,7 +15,7 @@ export const useForm = ( initialForm = {} , formValidations = {}) => {
         return true;
     },[ formValidation])
     
-    const OnInputChange = ({ target }) => {
+    const onInputChange = ({ target }) => {
         const { name, value } = target;
         setFormState({
             ...formState,
@@ -41,7 +41,7 @@ export const useForm = ( initialForm = {} , formValidations = {}) => {
     return {  
         ...formState,
         formState,
-        OnInputChange,
+        onInputChange,
         onResetForm,
         ...formValidation,
         isFormValid

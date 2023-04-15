@@ -1,2 +1,2 @@
-// export * from './thunks';
+export * from './thunks';
 export * from './authSlice';
