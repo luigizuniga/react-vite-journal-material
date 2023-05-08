@@ -17,12 +17,12 @@ export const journalSlice = createSlice({
             state.isSaving = false;
         },
         setActiveNote: ( state , action ) => {
-            state.notes =  action.payload;
+            state.active =  action.payload;
             state.messageSaved = '';
         },
-        // setNotes: ( state, action ) =>{
-        //     state.notes = action.payload;
-        // },
+        setNotes: ( state, action ) =>{
+            state.notes = action.payload;
+        },
         // setSaving:  ( state ) => {
         //     state.isSaving = true;
         //     state.messageSaved = '';

@@ -15,8 +15,8 @@ export const startNewNote = () => {
         
         // Collection Firebase body
         const newNote = {
-            title:'',
-            body:'',
+            title:'L',
+            body:'KILLER',
             date: new Date().getTime() 
         };
 
@@ -44,7 +44,7 @@ export const startLoadingNotes = () => {
             const notes = await loadNotes(uid);
 
             // Dispatch funcion para enviar una acción a un store de Redux
-            // dispatch( setNotes(notes) );
+            dispatch( setNotes(notes) );
 
         }
 }
