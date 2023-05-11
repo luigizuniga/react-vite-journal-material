@@ -15,8 +15,8 @@ export const startNewNote = () => {
         
         // Collection Firebase body
         const newNote = {
-            title:'L',
-            body:'KILLER',
+            title:'',
+            body:'',
             date: new Date().getTime() 
         };
 
@@ -49,22 +49,55 @@ export const startLoadingNotes = () => {
         }
 }
 
-// export const startSaveNote = () => {
-//     return async(dispatch,getState) =>
-//     {
-//         dispatch( setSaving() );
 
-//         const { uid } = getState().auth; 
-//         const { active:note } = getState().journal;
+export const startSaveNote = () => {
+    return async( dispatch, getState) => {
+        dispatch(setSaving() );
 
-//         const noteToFireStore = { ...note };
-//         delete noteToFireStore.id;
+        // Obtenermos UID del State
+        const { uid } = getState().auth;
+        
+        // Obtenermos las notas activas
+        const { active:note } = getState().journal;
 
-//         const docRef = doc( FirabaseDB, `${ uid }/journal/notes/${ note.id }`); 
-//         await setDoc( docRef, noteToFireStore, { merge: true });
+        // 
+        const noteToFireStore = { ...note };
 
-//         dispatch( updateNote( note));
+        delete noteToFireStore.id;
 
+        const docRef = doc( FirebaseDB, `${ uid }/journal/notes/${ note.id }`)
+        await setDoc( docRef, noteToFireStore, { merge:true });
+
+        dispatch( updateNote( note ));
+
+    }
+}
+
+export const startDeleteNote = () =>{
+    return async( dispatch, getState ) => {
+      // Obtenermos UID del State
+      const { uid } = getState().auth;
+
+      // Obtenermos las notas activas
+      const { active:note } = getState().journal;
+      
+      const docRef = doc( FirebaseDB, `${ uid }/journal/notes/${ note.id }`);
+
+      await deleteDoc( docRef );
+
+      dispatch( deleteNoteById(note.id));
+    }
+}
+
+// export const startDeleteNote = () => {
+//     return async( dispatch, getState ) => {
+//         const { uid } = getState().auth;
+ 
+//         const { active: note } = getState().journal;
+//         const docRef = doc( FirabaseDB, `${ uid }/journal/notes/${ note.id }`);
+//         await deleteDoc( docRef );
+
+//         dispatch( deleteNoteById( note.id ));
 //     }
 // }
 
@@ -83,15 +116,3 @@ export const startLoadingNotes = () => {
 //     }
 // }
 
-
-// export const startDeleteNote = () => {
-//     return async( dispatch, getState ) => {
-//         const { uid } = getState().auth;
- 
-//         const { active: note } = getState().journal;
-//         const docRef = doc( FirabaseDB, `${ uid }/journal/notes/${ note.id }`);
-//         await deleteDoc( docRef );
-
-//         dispatch( deleteNoteById( note.id ));
-//     }
-// }
