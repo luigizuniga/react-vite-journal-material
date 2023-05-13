@@ -10,7 +10,6 @@ import { useForm } from '../../hooks/useForm';
 import { ImageGallery } from '../components';
 import { startSaveNote, setActiveNote, startDeleteNote, startUploadingFile } from '../../store/journal';
 
-
 export const NoteView = () => {
     const dispatch = useDispatch();
 
@@ -18,6 +17,7 @@ export const NoteView = () => {
     const { body, title, date, onInputChange, formState } = useForm(note);
 
     const fileInputRef = useRef();
+    const images =  note.imageUrls;
 
     // setActiveNote guarda los datos dados del formulario
     useEffect(() => {
@@ -29,7 +29,7 @@ export const NoteView = () => {
         if (messageSaved.length > 0) {
             Swal.fire('Nota Actualizada', messageSaved, 'success')
         }
-    },[ messageSaved]);
+    },[messageSaved]);
 
     // Seteo de campo date
     const dateString = useMemo(() => {
@@ -128,8 +128,8 @@ export const NoteView = () => {
             </Grid>
 
             {/* Image gallery */}
-            <ImageGallery images={ note.imageUrls }/>
-
+            <ImageGallery images={ images }/>           
         </Grid>
     )
 }
+
