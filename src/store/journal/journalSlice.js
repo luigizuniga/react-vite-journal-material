@@ -38,19 +38,21 @@ export const journalSlice = createSlice({
             // mensaje con el titulo de la nota actualizada
             state.messageSaved =  `${ action.payload.title }, actualizada correctamente`;
         },
-        // setPhotosToActiveNote: ( state, action ) => {
-        //     state.active.imageUrls = [ ...state.active.imageUrls, ...action.payload ];
-        //     state.isSaving = false;
-        // },
-        // clearNotesLogout: (state) => { 
-        //     state.isSaving = false;
-        //     state.messageSaved = '';
-        //     state.notes = [];
-        //     state.active =  null;
-        // },
+        setPhotosToActiveNote: ( state, action ) => {
+            // spred de del arreglo anterior con el nuevo payload
+            state.active.imageUrls = [ ...state.active.imageUrls, ...action.payload ]; 
+            state.isSaving = false;
+        },
+        clearNotesLogout: (state) => { 
+            state.isSaving = false;
+            state.messageSaved = '';
+            state.notes = [];
+            state.active =  null;
+        },
         deleteNoteById: (state, action ) => {
             state.active =  null;
             state.notes = state.notes.filter( note => note.id !== action.payload);
+            state.messageSaved =  'Eliminada correctamente';
         }
     }
 });

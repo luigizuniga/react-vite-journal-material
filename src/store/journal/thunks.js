@@ -3,6 +3,7 @@ import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore/lite';
 import { FirebaseDB } from '../../firebase/config';
 import { loadNotes } from '../../helpers/loadNotes';
 import { addNewEmptyNote, deleteNoteById, savingNewNote, setActiveNote, setNotes, setPhotosToActiveNote, setSaving, updateNote } from "./journalSlice"
+import { fileUpload } from '../../helpers/fileUpload';
 
 
 export const startNewNote = () => {
@@ -73,6 +74,21 @@ export const startSaveNote = () => {
     }
 }
 
+export const startUploadingFile = ( files =[] ) => {
+    return async( dispatch ) =>{
+        dispatch( setSaving() );
+
+        //   await fileUpload( files[0] );
+        const fileUploadPromises = [];
+        for ( const file of files ){
+            fileUploadPromises.push( fileUpload(file));
+        }
+        const photoUrls = await Promise.all( fileUploadPromises );
+        console.log(photoUrls);
+        dispatch( setPhotosToActiveNote( photoUrls ));
+    }
+}
+
 export const startDeleteNote = () =>{
     return async( dispatch, getState ) => {
       // Obtenermos UID del State
@@ -88,31 +104,3 @@ export const startDeleteNote = () =>{
       dispatch( deleteNoteById(note.id));
     }
 }
-
-// export const startDeleteNote = () => {
-//     return async( dispatch, getState ) => {
-//         const { uid } = getState().auth;
- 
-//         const { active: note } = getState().journal;
-//         const docRef = doc( FirabaseDB, `${ uid }/journal/notes/${ note.id }`);
-//         await deleteDoc( docRef );
-
-//         dispatch( deleteNoteById( note.id ));
-//     }
-// }
-
-// export const startUploadingFiles = ( files=[] )  => {
-//     return async( dispatch ) => {
-//         dispatch( setSaving() );
-
-//         const fileUploadPromises = [];
-//         for( const file of files ) {
-//             fileUploadPromises.push( fileUpload( file ))
-//         }
-        
-//         const  photoUrls = await Promise.all( fileUploadPromises)
- 
-//         dispatch( setPhotosToActiveNote( photoUrls ));
-//     }
-// }
-

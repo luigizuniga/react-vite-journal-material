@@ -13,7 +13,6 @@ export const SideBarItem = ({ title = '', body, id, date, imageUrls = [] }) => {
         dispatch( setActiveNote({ title, body, id, date, imageUrls }) )
     }
 
-
     const newTitle = useMemo( () => {
         return title.length > 17
             ? title.substring(0,17) + '...'
